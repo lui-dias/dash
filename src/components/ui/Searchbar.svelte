@@ -99,7 +99,7 @@
 						name: searchTerm,
 						url: handleURL(),
 					},
-					...history.filter(h => h.url.includes(searchTerm)),
+					...history.filter(h => h.url.includes(searchTerm)).slice(0, 5),
 					...suggestions.slice(1),
 				]
 			}
