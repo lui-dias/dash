@@ -1,15 +1,25 @@
 {
-  "name": "dash",
-  "type": "module",
-  "version": "0.0.1",
-  "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
-  },
-  "dependencies": {
-    "astro": "^2.1.4"
-  }
+    "name": "dash",
+    "type": "module",
+    "version": "0.0.1",
+    "scripts": {
+        "dev": "astro dev --port 61001 --host",
+        "build": "astro build",
+        "preview": "astro preview",
+        "astro": "astro",
+        "docker:build": "docker build . -t dash",
+        "docker:run": "docker run -p 61001:61001 -d dash"
+    },
+    "dependencies": {
+        "@astrojs/svelte": "^2.1.0",
+        "@astrojs/tailwind": "^3.1.1",
+        "astro": "^2.1.4",
+        "pyodide": "^0.22.1",
+        "svelte": "^3.57.0",
+        "tailwind-scrollbar": "^3.0.0",
+        "tailwindcss": "^3.0.24"
+    },
+    "devDependencies": {
+        "@types/node": "^18.15.10"
+    }
 }

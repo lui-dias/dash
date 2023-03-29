@@ -1,0 +1,10 @@
+<script lang="ts">
+	export let className: string
+</script>
+
+<svg
+    class={className}
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	viewBox="0 0 24 24"><path d="M19 12.998h-6v6h-2v-6H5v-2h6v-6h2v6h6z" /></svg
+>
