@@ -27,7 +27,7 @@
 
 				suggestions = [
 					suggestions[0],
-					...data[1].map((suggestion: string) => ({
+					...data[1].slice(0, 5).map((suggestion: string) => ({
 						name: suggestion,
 						url: `https://search.brave.com/search?q=${suggestion}`,
 						type: 'suggestion',
@@ -48,6 +48,7 @@
 					suggestions[0],
 					...data[1]
 						.filter((suggestion: string) => !/^https?:\/\//.test(suggestion))
+						.slice(0, 5)
 						.map((suggestion: string) => ({
 							name: suggestion,
 							url: `https://www.google.com/search?q=${suggestion}`,
@@ -67,11 +68,13 @@
 
 				suggestions = [
 					suggestions[0],
-					...data.suggestionGroups[0].searchSuggestions.map((suggestion: any) => ({
-						name: suggestion.displayText,
-						url: `https://www.bing.com/search?q=${suggestion.displayText}`,
-						type: 'suggestion',
-					})),
+					...data.suggestionGroups[0].searchSuggestions
+						.slice(0, 5)
+						.map((suggestion: any) => ({
+							name: suggestion.displayText,
+							url: `https://www.bing.com/search?q=${suggestion.displayText}`,
+							type: 'suggestion',
+						})),
 				]
 			},
 		},
@@ -106,7 +109,7 @@
 						url: handleURL(),
 						type: 'search',
 					},
-					...history.filter(h => h.url.includes(searchTerm)).slice(0, 5),
+					...history.filter(h => h.url.includes(searchTerm)).slice(0, 4),
 					...suggestions.slice(1),
 				]
 			}
