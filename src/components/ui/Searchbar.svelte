@@ -1,15 +1,18 @@
 <script lang="ts">
+	import { onMount } from 'svelte'
 	import { debounce } from '../../utils/debounce'
 	import { outsideClick } from '../../utils/outsideClick'
-	import { onMount } from 'svelte'
 	import Bing from '../icons/Bing.svelte'
 	import Brave from '../icons/Brave.svelte'
 	import Chrome from '../icons/Chrome.svelte'
-	import { removeDuplicateObject } from '../../utils/removeDuplicateObject'
+	import History from '../icons/History.svelte'
+	import Letter from '../icons/Letter.svelte'
+	import Search from '../icons/Search.svelte'
 
 	type Suggestion = {
 		name: string
 		url: string
+		type: 'search' | 'history' | 'suggestion'
 	}
 
 	let engines = [
@@ -27,6 +30,7 @@
 					...data[1].map((suggestion: string) => ({
 						name: suggestion,
 						url: `https://search.brave.com/search?q=${suggestion}`,
+						type: 'suggestion',
 					})),
 				]
 			},
@@ -47,6 +51,7 @@
 						.map((suggestion: string) => ({
 							name: suggestion,
 							url: `https://www.google.com/search?q=${suggestion}`,
+							type: 'suggestion',
 						})),
 				]
 			},
@@ -65,6 +70,7 @@
 					...data.suggestionGroups[0].searchSuggestions.map((suggestion: any) => ({
 						name: suggestion.displayText,
 						url: `https://www.bing.com/search?q=${suggestion.displayText}`,
+						type: 'suggestion',
 					})),
 				]
 			},
@@ -98,6 +104,7 @@
 					{
 						name: searchTerm,
 						url: handleURL(),
+						type: 'search',
 					},
 					...history.filter(h => h.url.includes(searchTerm)).slice(0, 5),
 					...suggestions.slice(1),
@@ -122,6 +129,7 @@
 			suggestions[0] = {
 				name: searchTerm,
 				url: handleURL(),
+				type: 'search',
 			}
 		}
 	}
@@ -199,6 +207,7 @@
 							{
 								name: searchTerm,
 								url,
+								type: 'history',
 							},
 							...history,
 						]
@@ -278,8 +287,19 @@
 						suggestionFocusIndex === index ? 'bg-primary/25' : ''
 					}`}
 				>
-					{index === 0 ? suggestion.name + ' (search)' : suggestion.name}
-					<span class="text-sm text-dark">{suggestion.url}</span>
+					<div>
+						<div class="flex gap-x-2">
+							{#if index === 0}
+								<Letter />
+							{:else if suggestion.type === 'history'}
+								<History />
+							{:else}
+								<Search />
+							{/if}
+							<span class="text-gray">{suggestion.name}</span>
+						</div>
+						<span class="text-sm text-dark">{suggestion.url}</span>
+					</div>
 				</a>
 			</li>
 		{/each}
