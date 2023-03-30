@@ -4,7 +4,6 @@
 	import Component from './Component.svelte'
 	import DailyDev from './ui/DailyDev.svelte'
 	import GithubTopics from './ui/GithubTopics.svelte'
-	import Searchbar from './ui/Searchbar.svelte'
 	import Tabnews from './ui/Tabnews.svelte'
 	import Time from './ui/Time.svelte'
 	import Timer from './ui/Timer.svelte'
@@ -31,9 +30,6 @@
 <Component id="4">
 	<Time />
 </Component>
-<Component id="5">
-	<Searchbar />
-</Component>
 <Component id="6">
 	<DailyDev />
 </Component>
@@ -41,7 +37,7 @@
 	<Todo />
 </Component>
 <Component id="8">
-    <Timer />
+	<Timer />
 </Component>
 <Component id="9">
 	<GithubTopics />
