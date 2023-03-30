@@ -64,7 +64,9 @@
 			}
 		}
 
-		data = removeDuplicateObject(data, 'url')
+		data = removeDuplicateObject(data, 'url').sort((a, b) => {
+			return new Date(b.time).getTime() - new Date(a.time).getTime()
+		})
 
 		repos = data
 
