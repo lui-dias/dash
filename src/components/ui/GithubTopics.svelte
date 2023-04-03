@@ -18,8 +18,10 @@
 
 	let isLoading = true
 	let repos = [] as Repo[]
+	let filteredRepos = [] as Repo[]
 	let topic = 'javascript'
 	let value = ''
+	let valueFilter = ''
 
 	async function getRepos() {
 		const rs = await Promise.all(
@@ -73,6 +75,8 @@
 		isLoading = false
 	}
 
+	$: filteredRepos = repos
+
 	onMount(() => {
 		const savedTopic = localStorage.getItem('topic') || 'javascript'
 
@@ -90,26 +94,49 @@
 			>{topic} topics</strong
 		>
 
-		<input
-			type="text"
-			placeholder="Topic"
-			class="w-48 border-b-4 border-primary outline-none text-white rounded-lg bg-transparent py-2 font-medium"
-			bind:value
-			on:keydown={e => {
-				if (e.key === 'Enter') {
-					isLoading = true
-					topic = value
-					value = ''
-					localStorage.setItem('topic', topic)
-					getRepos()
-				}
-			}}
-		/>
+		<div class="flex justify-between">
+			<input
+				type="text"
+				placeholder="Topic"
+				class="w-48 border-b-4 border-primary outline-none text-white rounded-lg bg-transparent py-2 font-medium"
+				bind:value
+				on:keydown={e => {
+					if (e.key === 'Enter') {
+						isLoading = true
+						topic = value
+						value = ''
+						localStorage.setItem('topic', topic)
+						getRepos()
+					}
+				}}
+			/>
+
+			<input
+				type="text"
+				placeholder="Filter"
+				class="w-48 border-b-4 border-primary outline-none text-white rounded-lg bg-transparent py-2 font-medium"
+				spellcheck="false"
+				bind:value={valueFilter}
+				on:keydown={e => {
+                    if (valueFilter === '') {
+                        filteredRepos = repos
+                        return
+                    }
+
+					filteredRepos = repos.filter(repo => {
+						return (
+							new RegExp(valueFilter, 'i').test(repo.repo) ||
+							new RegExp(valueFilter, 'i').test(repo.description)
+						)
+					})
+				}}
+			/>
+		</div>
 
 		<div
 			class="mt-6 flex flex-col gap-y-5 max-h-[1500px] overflow-y-auto scrollbar-thumb-black scrollbar-thin"
 		>
-			{#each repos as repo}
+			{#each filteredRepos as repo}
 				<div>
 					{#if repo.image}
 						<img
